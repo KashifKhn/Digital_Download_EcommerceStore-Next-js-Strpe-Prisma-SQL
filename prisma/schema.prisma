@@ -10,3 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Product {
+  id                     String   @id @default(uuid())
+  name                   String
+  priceInCent            Int
+  filePath               String
+  imagePath              String
+  description            String
+  isAvailableForPurchase Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+
