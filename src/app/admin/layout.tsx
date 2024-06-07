@@ -1,6 +1,8 @@
 import Nav from "@/components/Nav";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const AdminLayout = ({
   children,
 }: Readonly<{
