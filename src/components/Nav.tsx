@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import NavLink from "./NavLink";
+import NavLink from "./ui/NavLink";
 
 const Nav = () => {
   return (
