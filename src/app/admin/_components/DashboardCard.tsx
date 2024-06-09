@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../../../components/ui/card";
 
 type DashboardCardProps = {
   title: string;

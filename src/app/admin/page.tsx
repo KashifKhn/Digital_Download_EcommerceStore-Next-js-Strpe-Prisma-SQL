@@ -1,7 +1,6 @@
-import DashboardCard from "@/components/DashboardCard";
+import DashboardCard from "@/app/admin/_components/DashboardCard";
 import db from "@/db/db";
 import { formatCurrency, formatNumber } from "@/lib/formatters";
-import { resolve } from "path";
 import React from "react";
 
 const getSalesData = async () => {
