@@ -51,5 +51,5 @@ export const addProducts = async (formData: FormData) => {
   });
 
   console.log("Product added successfully");
-  redirect("/admin");
+  redirect("/admin/products");
 };
