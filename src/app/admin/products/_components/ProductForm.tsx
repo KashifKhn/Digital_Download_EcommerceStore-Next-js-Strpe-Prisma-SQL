@@ -6,20 +6,16 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
+import { addProducts } from "../../_actions/products";
 
 const ProductForm = () => {
-  const [priceInCents, setPriceInCents] = useState<number>();
+  const [priceInCents, setPriceInCents] = useState<number>(0);
   return (
     <>
-      <form className="space-y-8">
+      <form action={addProducts} className="space-y-8">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
-          <Input
-            name="name"
-            id="name"
-            type="text"
-            required
-          />
+          <Input name="name" id="name" type="text" required />
         </div>
 
         <div className="space-y-2">
@@ -29,9 +25,7 @@ const ProductForm = () => {
             id="priceInCents"
             type="number"
             value={priceInCents}
-            onChange={(e) =>
-              setPriceInCents(Number(e.target.value || undefined))
-            }
+            onChange={(e) => setPriceInCents(Number(e.target.value))}
             required
           />
 
@@ -43,32 +37,19 @@ const ProductForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea
-            name="description"
-            id="description"
-            required />
+          <Textarea name="description" id="description" required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="file">File</Label>
-          <Input
-            name="file"
-            id="file"
-            type="file"
-            required
-          />
+          <Input name="file" id="file" type="file" required />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="image">Image</Label>
-          <Input
-            name="image"
-            id="image"
-            type="file"
-            required
-          />
+          <Input name="image" id="image" type="file" required />
         </div>
-        <Button type="submit" >Add Your Products</Button>
+        <Button type="submit">Add Your Products</Button>
       </form>
     </>
   );

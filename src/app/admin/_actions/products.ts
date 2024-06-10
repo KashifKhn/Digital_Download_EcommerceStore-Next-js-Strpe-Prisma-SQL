@@ -1,12 +1,14 @@
 "use server";
+
 import db from "@/db/db";
 import fs from "fs/promises";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const fileSchema = z.instanceof(File, { message: "File is required" });
 
 const imageSchema = fileSchema.refine(
-  (file) => file.size === 0 || file.type.startsWith("/image"),
+  (file) => file.size === 0 || file.type.startsWith("image/"),
 );
 
 const addProductSchema = z.object({
@@ -22,6 +24,7 @@ export const addProducts = async (formData: FormData) => {
   if (result.success === false) {
     return result.error?.formErrors.fieldErrors;
   }
+
   const data = result.data;
   await fs.mkdir("public/uploads/products", { recursive: true });
   const filePath = `/uploads/products/${crypto.randomUUID()}-${data.file.name}`;
@@ -37,7 +40,7 @@ export const addProducts = async (formData: FormData) => {
     Buffer.from(await data.image.arrayBuffer()),
   );
 
-  db.product.create({
+  await db.product.create({
     data: {
       name: data.name,
       description: data.description,
@@ -46,4 +49,7 @@ export const addProducts = async (formData: FormData) => {
       imagePath: imagePath,
     },
   });
+
+  console.log("Product added successfully");
+  redirect("/admin");
 };
