@@ -8,6 +8,7 @@ import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
 import { addProducts } from "../../_actions/products";
 import { useFormState } from "react-dom";
+import SubmitButton from "../../_components/SubmitButton";
 
 const ProductForm = () => {
   const [error, actions] = useFormState(addProducts, {});
@@ -76,7 +77,7 @@ const ProductForm = () => {
             </p>
           )}
         </div>
-        <Button type="submit">Add Your Products</Button>
+        <SubmitButton />
       </form>
     </>
   );
