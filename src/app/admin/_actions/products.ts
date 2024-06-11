@@ -44,7 +44,7 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
 
   await db.product.create({
     data: {
-      isAvailableForPurchase: true,
+      isAvailableForPurchase: false,
       name: data.name,
       description: data.description,
       priceInCent: data.priceInCents,
