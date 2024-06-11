@@ -12,7 +12,7 @@ import SubmitButton from "../../_components/SubmitButton";
 
 const ProductForm = () => {
   const [error, actions] = useFormState(addProducts, {});
-  const [priceInCents, setPriceInCents] = useState<number>();
+  const [priceInCents, setPriceInCents] = useState<number | undefined>();
   return (
     <>
       <form action={actions} className="space-y-8">
@@ -33,7 +33,9 @@ const ProductForm = () => {
             id="priceInCents"
             type="number"
             value={priceInCents}
-            onChange={(e) => setPriceInCents(Number(e.target.value))}
+            onChange={(e) =>
+              setPriceInCents(Number(e.target.value) || undefined)
+            }
             required
           />
 
