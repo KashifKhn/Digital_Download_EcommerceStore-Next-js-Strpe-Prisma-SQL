@@ -14,13 +14,15 @@ const imageSchema = fileSchema.refine(
 const addProductSchema = z.object({
   name: z.string().min(1),
   description: z.string().min(1),
-  priceInCents: z.coerce.number(z.number().int().positive().min(1)),
+  priceInCents: z.coerce.number().int().min(1),
   file: fileSchema.refine((file) => file.size > 0, "File is required"),
   image: imageSchema.refine((file) => file.size > 0, "File is required"),
 });
 
-export const addProducts = async (formData: FormData) => {
-  const result = addProductSchema.safeParse(Object.fromEntries(formData));
+export const addProducts = async (prevState: unknown, formData: FormData) => {
+  const result = addProductSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
   if (result.success === false) {
     return result.error?.formErrors.fieldErrors;
   }

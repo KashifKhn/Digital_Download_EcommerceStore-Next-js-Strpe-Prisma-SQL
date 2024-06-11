@@ -7,15 +7,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
 import { addProducts } from "../../_actions/products";
+import { useFormState } from "react-dom";
 
 const ProductForm = () => {
-  const [priceInCents, setPriceInCents] = useState<number>(0);
+  const [error, actions] = useFormState(addProducts, {});
+  const [priceInCents, setPriceInCents] = useState<number>();
   return (
     <>
-      <form action={addProducts} className="space-y-8">
+      <form action={actions} className="space-y-8">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
           <Input name="name" id="name" type="text" required />
+          {error?.name && (
+            <p className="text-destructive" role="alert">
+              {error.name}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -33,21 +40,41 @@ const ProductForm = () => {
             {" "}
             {formatCurrency((priceInCents || 0) / 100)}
           </p>
+          {error?.priceInCents && (
+            <p className="text-destructive" role="alert">
+              {error.priceInCents}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
           <Textarea name="description" id="description" required />
+          {error?.description && (
+            <p className="text-destructive" role="alert">
+              {error.description}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="file">File</Label>
           <Input name="file" id="file" type="file" required />
+          {error?.file && (
+            <p className="text-destructive" role="alert">
+              {error.file}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="image">Image</Label>
           <Input name="image" id="image" type="file" required />
+          {error?.image && (
+            <p className="text-destructive" role="alert">
+              {error.image}
+            </p>
+          )}
         </div>
         <Button type="submit">Add Your Products</Button>
       </form>
