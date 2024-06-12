@@ -56,3 +56,10 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
   console.log("Product added successfully");
   redirect("/admin/products");
 };
+
+const toggleIsAvailability = async (
+  id: string,
+  isAvailableForPurchase: boolean,
+) => {
+  await db.product.update({ where: { id }, data: { isAvailableForPurchase } });
+};
