@@ -57,7 +57,7 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
   redirect("/admin/products");
 };
 
-const toggleIsAvailability = async (
+export const toggleIsAvailability = async (
   id: string,
   isAvailableForPurchase: boolean,
 ) => {
