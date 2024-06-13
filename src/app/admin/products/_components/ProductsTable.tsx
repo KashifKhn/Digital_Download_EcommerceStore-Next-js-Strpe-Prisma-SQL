@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/table";
 import db from "@/db/db";
 import React from "react";
+import ProductTableList from "./ProductTableList";
 
 const ProductsTable = async () => {
   const products = await db.product.findMany({
@@ -38,7 +39,7 @@ const ProductsTable = async () => {
           </TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>{}</TableBody>
+      <ProductTableList products={products} />
     </Table>
   );
 };
