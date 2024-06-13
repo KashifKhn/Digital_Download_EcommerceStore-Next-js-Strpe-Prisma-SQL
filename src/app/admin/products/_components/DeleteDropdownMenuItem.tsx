@@ -2,7 +2,7 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import React, { useTransition } from "react";
 import { deleteProducts } from "../../_actions/products";
 
-const ToggleDropdownMenuItem = ({
+const DeleteDropdownMenuItem = ({
   id,
   disabled,
 }: {
@@ -24,4 +24,4 @@ const ToggleDropdownMenuItem = ({
   );
 };
 
-export default ToggleDropdownMenuItem;
+export default DeleteDropdownMenuItem;
