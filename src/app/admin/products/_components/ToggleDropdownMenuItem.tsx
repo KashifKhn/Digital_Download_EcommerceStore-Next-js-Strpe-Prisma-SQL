@@ -1,3 +1,4 @@
+"use client";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import React, { useTransition } from "react";
 import { toggleIsAvailability } from "../../_actions/products";
