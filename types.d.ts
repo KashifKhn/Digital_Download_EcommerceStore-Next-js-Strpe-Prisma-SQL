@@ -3,7 +3,7 @@ type Product = {
   name: string;
   priceInCent: number;
   isAvailableForPurchase: boolean;
-  _count?: {
+  _count: {
     Order: number;
   };
 };
