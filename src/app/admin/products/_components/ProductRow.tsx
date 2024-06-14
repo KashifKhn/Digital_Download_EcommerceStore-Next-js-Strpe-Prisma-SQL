@@ -18,7 +18,8 @@ const ProductRow = ({ product }: ProductRowProps) => {
         ) : (
           <>
             {" "}
-            <XCircle /> <span className="sr-only">Unavailable</span>
+            <XCircle className="stroke-destructive" />{" "}
+            <span className="sr-only">Unavailable</span>
           </>
         )}
       </TableCell>
