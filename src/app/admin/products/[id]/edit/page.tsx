@@ -12,7 +12,7 @@ const EditProductPage = async ({
   return (
     <>
       <PageHeader>Edit Product</PageHeader>
-      <ProductForm />{" "}
+      <ProductForm product={product} />{" "}
     </>
   );
 };
