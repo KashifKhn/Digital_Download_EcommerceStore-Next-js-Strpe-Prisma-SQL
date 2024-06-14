@@ -69,4 +69,6 @@ export const deleteProducts = async (id: string) => {
   if (!product) {
     notFound();
   }
+  await fs.unlink(`public${product.filePath}`);
+  await fs.unlink(`public${product.imagePath}`);
 };
