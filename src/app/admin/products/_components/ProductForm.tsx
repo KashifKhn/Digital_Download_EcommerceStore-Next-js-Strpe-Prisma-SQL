@@ -5,14 +5,17 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency } from "@/lib/formatters";
 import { useState } from "react";
-import { addProducts } from "../../_actions/products";
+import { addProducts, updateProducts } from "../../_actions/products";
 import { useFormState } from "react-dom";
 import SubmitButton from "../../_components/SubmitButton";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 
 const ProductForm = ({ product }: { product?: Product | null }) => {
-  const [error, actions] = useFormState(addProducts, {});
+  const [error, actions] = useFormState(
+    product == null ? addProducts : updateProducts.bind(null, product.id),
+    {},
+  );
   const [priceInCents, setPriceInCents] = useState<number | undefined>(
     product?.priceInCent,
   );
