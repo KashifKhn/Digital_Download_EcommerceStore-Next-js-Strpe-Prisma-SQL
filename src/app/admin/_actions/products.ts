@@ -29,14 +29,14 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
 
   const data = result.data;
   await fs.mkdir("public/uploads/products/files", { recursive: true });
-  const filePath = `/uploads/products/files${crypto.randomUUID()}-${data.file.name}`;
+  const filePath = `/uploads/products/files/${crypto.randomUUID()}-${data.file.name}`;
   await fs.writeFile(
     `public${filePath}`,
     Buffer.from(await data.file.arrayBuffer()),
   );
 
   await fs.mkdir("public/uploads/products/images", { recursive: true });
-  const imagePath = `/uploads/products/images${crypto.randomUUID()}-${data.image.name}`;
+  const imagePath = `/uploads/products/images/${crypto.randomUUID()}-${data.image.name}`;
   await fs.writeFile(
     `public${imagePath}`,
     Buffer.from(await data.image.arrayBuffer()),
