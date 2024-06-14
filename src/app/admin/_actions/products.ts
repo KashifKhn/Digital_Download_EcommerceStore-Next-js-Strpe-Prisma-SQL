@@ -105,7 +105,6 @@ export const updateProducts = async (
   await db.product.update({
     where: { id },
     data: {
-      isAvailableForPurchase: product.isAvailableForPurchase,
       name: data.name,
       description: data.description,
       priceInCent: data.priceInCents,
@@ -114,7 +113,7 @@ export const updateProducts = async (
     },
   });
 
-  console.log("Product added successfully");
+  console.log("Product updated successfully");
   redirect("/admin/products");
 };
 
