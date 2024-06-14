@@ -57,6 +57,67 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
   redirect("/admin/products");
 };
 
+const editProductSchema = addProductSchema.extend({
+  file: fileSchema.optional(),
+  image: imageSchema.optional(),
+});
+
+export const updateProducts = async (
+  id: string,
+  prevState: unknown,
+  formData: FormData,
+) => {
+  const result = editProductSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
+
+  if (result.success === false) {
+    return result.error?.formErrors.fieldErrors;
+  }
+
+  const data = result.data;
+  const product = await db.product.findUnique({ where: { id } });
+
+  if (product == null) {
+    return notFound();
+  }
+
+  let filePath = product.filePath;
+  if (data.file != null && data.file.size > 0) {
+    await fs.unlink(`public${product.filePath}`);
+    filePath = `/uploads/products/files/${crypto.randomUUID()}-${data.file.name}`;
+    await fs.writeFile(
+      `public${filePath}`,
+      Buffer.from(await data.file.arrayBuffer()),
+    );
+  }
+
+  let imagePath = product.imagePath;
+  if (data.image != null && data.image.size > 0) {
+    await fs.unlink(`public${product.imagePath}`);
+    imagePath = `/uploads/products/images/${crypto.randomUUID()}-${data.image.name}`;
+    await fs.writeFile(
+      `public${imagePath}`,
+      Buffer.from(await data.image.arrayBuffer()),
+    );
+  }
+
+  await db.product.update({
+    where: { id },
+    data: {
+      isAvailableForPurchase: product.isAvailableForPurchase,
+      name: data.name,
+      description: data.description,
+      priceInCent: data.priceInCents,
+      filePath: filePath,
+      imagePath: imagePath,
+    },
+  });
+
+  console.log("Product added successfully");
+  redirect("/admin/products");
+};
+
 export const toggleIsAvailability = async (
   id: string,
   isAvailableForPurchase: boolean,
