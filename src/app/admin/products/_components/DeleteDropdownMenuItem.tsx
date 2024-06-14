@@ -14,6 +14,7 @@ const DeleteDropdownMenuItem = ({
   const [isPending, startTransition] = useTransition();
   return (
     <DropdownMenuItem
+      variant="destructive"
       disabled={isPending || disabled}
       onClick={() => {
         startTransition(async () => {
