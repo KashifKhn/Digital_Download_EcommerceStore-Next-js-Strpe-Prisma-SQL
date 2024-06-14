@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,16 +8,26 @@ import { useState } from "react";
 import { addProducts } from "../../_actions/products";
 import { useFormState } from "react-dom";
 import SubmitButton from "../../_components/SubmitButton";
+import { Product } from "@prisma/client";
+import Image from "next/image";
 
-const ProductForm = () => {
+const ProductForm = ({ product }: { product?: Product | null }) => {
   const [error, actions] = useFormState(addProducts, {});
-  const [priceInCents, setPriceInCents] = useState<number | undefined>();
+  const [priceInCents, setPriceInCents] = useState<number | undefined>(
+    product?.priceInCent,
+  );
   return (
     <>
       <form action={actions} className="space-y-8">
         <div className="space-y-2">
           <Label htmlFor="name">Name</Label>
-          <Input name="name" id="name" type="text" required />
+          <Input
+            name="name"
+            id="name"
+            type="text"
+            required
+            defaultValue={product?.name || ""}
+          />
           {error?.name && (
             <p className="text-destructive" role="alert">
               {error.name}
@@ -52,7 +61,12 @@ const ProductForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="description">Description</Label>
-          <Textarea name="description" id="description" required />
+          <Textarea
+            name="description"
+            id="description"
+            required
+            defaultValue={product?.description || ""}
+          />
           {error?.description && (
             <p className="text-destructive" role="alert">
               {error.description}
@@ -62,7 +76,10 @@ const ProductForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="file">File</Label>
-          <Input name="file" id="file" type="file" required />
+          <Input name="file" id="file" type="file" required={product == null} />
+          {product != null && (
+            <p className="text-muted-foreground">{product?.filePath}</p>
+          )}
           {error?.file && (
             <p className="text-destructive" role="alert">
               {error.file}
@@ -72,7 +89,20 @@ const ProductForm = () => {
 
         <div className="space-y-2">
           <Label htmlFor="image">Image</Label>
-          <Input name="image" id="image" type="file" required />
+          <Input
+            name="image"
+            id="image"
+            type="file"
+            required={product == null}
+          />
+          {product != null && (
+            <Image
+              src={product?.imagePath}
+              width={200}
+              height={200}
+              alt="product image"
+            />
+          )}
           {error?.image && (
             <p className="text-destructive" role="alert">
               {error.image}
