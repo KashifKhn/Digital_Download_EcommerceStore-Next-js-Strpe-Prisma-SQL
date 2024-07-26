@@ -14,7 +14,7 @@ const getAllProducts = cache(
   ["/", "all-products-customer"],
   { revalidate: 60 * 60 * 24 }
 );
-const page = () => {
+const ProductsPage = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <Suspense
@@ -34,4 +34,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ProductsPage;
