@@ -1,8 +1,8 @@
 export const isValidPassword = async (
   password: string,
-  hashedPassword: string
+  adminPassword: string
 ) => {
-  return (await hashPassword(password)) === hashedPassword;
+  return (await hashPassword(password)) === (await hashPassword(adminPassword));
 };
 
 const hashPassword = async (password: string) => {

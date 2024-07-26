@@ -24,7 +24,7 @@ const isAuthenticated = async (req: NextRequest) => {
 
   return (
     username === process.env.ADMIN_USERNAME &&
-    (await isValidPassword(password, process.env.HASH_ADMIN_PASSWORD as string))
+    (await isValidPassword(password, process.env.ADMIN_PASSWORD as string))
   );
 };
 
