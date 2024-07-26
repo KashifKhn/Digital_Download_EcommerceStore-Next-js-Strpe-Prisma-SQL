@@ -2,13 +2,14 @@
 
 import db from "@/db/db";
 import fs from "fs/promises";
+import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { z } from "zod";
 
 const fileSchema = z.instanceof(File, { message: "File is required" });
 
 const imageSchema = fileSchema.refine(
-  (file) => file.size === 0 || file.type.startsWith("image/"),
+  (file) => file.size === 0 || file.type.startsWith("image/")
 );
 
 const addProductSchema = z.object({
@@ -21,7 +22,7 @@ const addProductSchema = z.object({
 
 export const addProducts = async (prevState: unknown, formData: FormData) => {
   const result = addProductSchema.safeParse(
-    Object.fromEntries(formData.entries()),
+    Object.fromEntries(formData.entries())
   );
   if (result.success === false) {
     return result.error?.formErrors.fieldErrors;
@@ -29,17 +30,21 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
 
   const data = result.data;
   await fs.mkdir("public/uploads/products/files", { recursive: true });
-  const filePath = `/uploads/products/files/${crypto.randomUUID()}-${data.file.name}`;
+  const filePath = `/uploads/products/files/${crypto.randomUUID()}-${
+    data.file.name
+  }`;
   await fs.writeFile(
     `public${filePath}`,
-    Buffer.from(await data.file.arrayBuffer()),
+    Buffer.from(await data.file.arrayBuffer())
   );
 
   await fs.mkdir("public/uploads/products/images", { recursive: true });
-  const imagePath = `/uploads/products/images/${crypto.randomUUID()}-${data.image.name}`;
+  const imagePath = `/uploads/products/images/${crypto.randomUUID()}-${
+    data.image.name
+  }`;
   await fs.writeFile(
     `public${imagePath}`,
-    Buffer.from(await data.image.arrayBuffer()),
+    Buffer.from(await data.image.arrayBuffer())
   );
 
   await db.product.create({
@@ -53,7 +58,8 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
     },
   });
 
-  console.log("Product added successfully");
+  revalidatePath("/");
+  revalidatePath("/products");
   redirect("/admin/products");
 };
 
@@ -65,10 +71,10 @@ const editProductSchema = addProductSchema.extend({
 export const updateProducts = async (
   id: string,
   prevState: unknown,
-  formData: FormData,
+  formData: FormData
 ) => {
   const result = editProductSchema.safeParse(
-    Object.fromEntries(formData.entries()),
+    Object.fromEntries(formData.entries())
   );
 
   if (result.success === false) {
@@ -85,20 +91,24 @@ export const updateProducts = async (
   let filePath = product.filePath;
   if (data.file != null && data.file.size > 0) {
     await fs.unlink(`public${product.filePath}`);
-    filePath = `/uploads/products/files/${crypto.randomUUID()}-${data.file.name}`;
+    filePath = `/uploads/products/files/${crypto.randomUUID()}-${
+      data.file.name
+    }`;
     await fs.writeFile(
       `public${filePath}`,
-      Buffer.from(await data.file.arrayBuffer()),
+      Buffer.from(await data.file.arrayBuffer())
     );
   }
 
   let imagePath = product.imagePath;
   if (data.image != null && data.image.size > 0) {
     await fs.unlink(`public${product.imagePath}`);
-    imagePath = `/uploads/products/images/${crypto.randomUUID()}-${data.image.name}`;
+    imagePath = `/uploads/products/images/${crypto.randomUUID()}-${
+      data.image.name
+    }`;
     await fs.writeFile(
       `public${imagePath}`,
-      Buffer.from(await data.image.arrayBuffer()),
+      Buffer.from(await data.image.arrayBuffer())
     );
   }
 
@@ -113,15 +123,19 @@ export const updateProducts = async (
     },
   });
 
-  console.log("Product updated successfully");
+  revalidatePath("/");
+  revalidatePath("/products");
   redirect("/admin/products");
 };
 
 export const toggleIsAvailability = async (
   id: string,
-  isAvailableForPurchase: boolean,
+  isAvailableForPurchase: boolean
 ) => {
   await db.product.update({ where: { id }, data: { isAvailableForPurchase } });
+
+  revalidatePath("/");
+  revalidatePath("/products");
 };
 
 export const deleteProducts = async (id: string) => {
@@ -131,4 +145,7 @@ export const deleteProducts = async (id: string) => {
   }
   await fs.unlink(`public${product.filePath}`);
   await fs.unlink(`public${product.imagePath}`);
+
+  revalidatePath("/");
+  revalidatePath("/products");
 };
