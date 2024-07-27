@@ -7,6 +7,8 @@ import ProductRowDropdownMenu from "./ProductRowDropdownMenu";
 type ProductRowProps = { product: Product };
 
 const ProductRow = ({ product }: ProductRowProps) => {
+  console.log("ProductRow", product);
+  
   return (
     <TableRow key={product.id}>
       <TableCell>
@@ -24,8 +26,8 @@ const ProductRow = ({ product }: ProductRowProps) => {
         )}
       </TableCell>
       <TableCell>{product.name}</TableCell>
-      <TableCell>{formatCurrency(product.priceInCent / 100)}</TableCell>
-      <TableCell>{formatNumber(product._count.Order)}</TableCell>
+      <TableCell>{formatCurrency(product.priceInCents / 100)}</TableCell>
+      <TableCell>{formatNumber(product._count.orders)}</TableCell>
       <TableCell>
         <ProductRowDropdownMenu product={product} />
       </TableCell>

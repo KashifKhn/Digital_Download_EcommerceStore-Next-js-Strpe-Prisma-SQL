@@ -1,9 +1,5 @@
 import {
   Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
 } from "@/components/ui/table";
 import db from "@/db/db";
 import React from "react";
@@ -12,18 +8,24 @@ import ProductTableList from "./ProductTableList";
 const ProductsTable = async () => {
   const products = await db.product.findMany({
     select: {
-      name: true,
       id: true,
+      name: true,
+      priceInCents: true,
       isAvailableForPurchase: true,
-      priceInCent: true,
-      _count: { select: { Order: true } },
+      _count: { select: { orders: true } },
     },
     orderBy: { name: "asc" },
   });
 
+  console.log(products);
+  
+   
+
   if (products.length === 0) {
     return <p className="text-center">No products found.</p>;
   }
+
+
   return (
     <Table>
       <ProductTableList products={products} />

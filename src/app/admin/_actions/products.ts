@@ -52,7 +52,7 @@ export const addProducts = async (prevState: unknown, formData: FormData) => {
       isAvailableForPurchase: false,
       name: data.name,
       description: data.description,
-      priceInCent: data.priceInCents,
+      priceInCents: data.priceInCents,
       filePath: filePath,
       imagePath: imagePath,
     },
@@ -117,7 +117,7 @@ export const updateProducts = async (
     data: {
       name: data.name,
       description: data.description,
-      priceInCent: data.priceInCents,
+      priceInCents: data.priceInCents,
       filePath: filePath,
       imagePath: imagePath,
     },

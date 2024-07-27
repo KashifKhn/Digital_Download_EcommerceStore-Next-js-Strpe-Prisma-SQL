@@ -17,7 +17,7 @@ const ProductForm = ({ product }: { product?: Product | null }) => {
     {},
   );
   const [priceInCents, setPriceInCents] = useState<number | undefined>(
-    product?.priceInCent,
+    product?.priceInCents,
   );
   return (
     <>
