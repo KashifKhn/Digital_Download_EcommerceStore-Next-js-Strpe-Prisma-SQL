@@ -1,6 +1,4 @@
-import {
-  Table,
-} from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
 import db from "@/db/db";
 import React from "react";
 import ProductTableList from "./ProductTableList";
@@ -17,14 +15,9 @@ const ProductsTable = async () => {
     orderBy: { name: "asc" },
   });
 
-  console.log(products);
-  
-   
-
   if (products.length === 0) {
     return <p className="text-center">No products found.</p>;
   }
-
 
   return (
     <Table>

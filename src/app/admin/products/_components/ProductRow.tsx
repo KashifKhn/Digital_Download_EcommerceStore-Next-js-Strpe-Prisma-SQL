@@ -7,8 +7,6 @@ import ProductRowDropdownMenu from "./ProductRowDropdownMenu";
 type ProductRowProps = { product: Product };
 
 const ProductRow = ({ product }: ProductRowProps) => {
-  console.log("ProductRow", product);
-  
   return (
     <TableRow key={product.id}>
       <TableCell>
