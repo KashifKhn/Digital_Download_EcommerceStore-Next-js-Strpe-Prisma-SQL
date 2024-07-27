@@ -1,9 +1,9 @@
 type Product = {
   id: string;
   name: string;
-  priceInCent: number;
+  priceInCents: number;
   isAvailableForPurchase: boolean;
   _count: {
-    Order: number;
+    orders: number;
   };
 };
