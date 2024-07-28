@@ -34,7 +34,7 @@ const ProductRowDropdownMenu = ({ product }: ProductRowDropdownMenuProps) => {
         />
         <DeleteDropdownMenuItem
           id={product.id}
-          disabled={product._count.Order > 0}
+          disabled={product._count.orders > 0}
         />
       </DropdownMenuContent>
     </DropdownMenu>
