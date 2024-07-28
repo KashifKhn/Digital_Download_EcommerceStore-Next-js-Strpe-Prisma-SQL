@@ -20,11 +20,11 @@ import {
 import React, { FormEvent, useState } from "react";
 
 type FormProps = {
-  priceInCent: number;
+  priceInCents: number;
   productId: string;
 };
 
-const Form = ({ priceInCent, productId }: FormProps) => {
+const Form = ({ priceInCents, productId }: FormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
@@ -91,7 +91,7 @@ const Form = ({ priceInCent, productId }: FormProps) => {
             disabled={stripe == null || elements == null || isLoading}>
             {isLoading
               ? "Purchasing..."
-              : `Purchase - ${formatCurrency(priceInCent / 100)}`}
+              : `Purchase - ${formatCurrency(priceInCents / 100)}`}
           </Button>
         </CardFooter>
       </Card>

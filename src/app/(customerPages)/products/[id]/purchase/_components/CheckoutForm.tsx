@@ -11,7 +11,7 @@ type CheckoutFormProps = {
     id: string;
     imagePath: string;
     name: string;
-    priceInCent: number;
+    priceInCents: number;
     description: string;
   };
   clientSecret: string;
@@ -35,7 +35,7 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
         </div>
         <div>
           <div className="text-lg">
-            {formatCurrency(product.priceInCent / 100)}
+            {formatCurrency(product.priceInCents / 100)}
           </div>
           <h1 className="text-2xl font-bold">{product.name}</h1>
           <div className="line-clamp-3 text-muted-foreground">
@@ -47,7 +47,7 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
         stripe={stripePromise}
         options={{ clientSecret }}>
         <Form
-          priceInCent={product.priceInCent}
+          priceInCents={product.priceInCents}
           productId={product.id}
         />
       </Elements>

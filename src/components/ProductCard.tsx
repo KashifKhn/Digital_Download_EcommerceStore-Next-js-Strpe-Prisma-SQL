@@ -15,7 +15,7 @@ import { formatCurrency } from "@/lib/formatters";
 type ProductCardProps = {
   id: string;
   name: string;
-  priceInCent: number;
+  priceInCents: number;
   description: string;
   imagePath: string;
 };
@@ -23,7 +23,7 @@ type ProductCardProps = {
 const ProductCard = ({
   id,
   name,
-  priceInCent,
+  priceInCents,
   description,
   imagePath,
 }: ProductCardProps) => {
@@ -38,7 +38,7 @@ const ProductCard = ({
       </div>
       <CardHeader>
         <CardTitle>{name}</CardTitle>
-        <CardDescription>{formatCurrency(priceInCent / 100)}</CardDescription>
+        <CardDescription>{formatCurrency(priceInCents / 100)}</CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
         <p className="line-clamp-4">{description}</p>
