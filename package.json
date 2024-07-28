@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "stripe": "stripe listen --forward-to localhost:3000/webhooks/stripe  ",
     "lint": "next lint"
   },
   "dependencies": {
