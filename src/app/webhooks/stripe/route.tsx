@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import PurchaseReceiptEmail from "@/emails/PurchaseReceipt";
+import { count } from "console";
 // import PurchaseReceiptEmail from "@/email/PurchaseReceipt";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -18,6 +19,7 @@ export async function POST(req: NextRequest) {
   if (event.type === "charge.succeeded") {
     const charge = event.data.object;
     const productId = charge.metadata.productId;
+    const couponCodeId = charge.metadata.couponCodeId;
     const email = charge.billing_details.email;
     const pricePaidInCents = charge.amount;
 
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     const userFields = {
       email,
-      orders: { create: { productId, pricePaidInCents } },
+      orders: { create: { productId, pricePaidInCents, couponCodeId } },
     };
 
     const {
