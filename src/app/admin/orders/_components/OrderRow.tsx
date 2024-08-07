@@ -5,26 +5,34 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/formatters";
-import { MoreVertical } from "lucide-react";
+import { Minus, MoreVertical } from "lucide-react";
 import DeleteDropdownMenuItem from "./DeleteDropdownMenuItem";
 
 type OrderRowProps = {
-  id: string;
-  pricePaidInCents: number;
-  user: {
-    email: string;
-  };
-  product: {
-    name: string;
+  order: {
+    id: string;
+    pricePaidInCents: number;
+    user: {
+      email: string;
+    };
+    product: {
+      name: string;
+    };
+    couponCode: {
+      code: string;
+    };
   };
 };
 
-const OrderRow = ({ order }: { order: OrderRowProps }) => {
+const OrderRow = ({ order }: OrderRowProps) => {
   return (
     <TableRow key={order.id}>
       <TableCell>{order.product.name}</TableCell>
       <TableCell>{order.user.email}</TableCell>
       <TableCell>{formatCurrency(order.pricePaidInCents / 100)}</TableCell>
+      <TableCell>
+        {order.couponCode == null ? <Minus /> : order.couponCode.code}
+      </TableCell>
       <TableCell className="text-center">
         <DropdownMenu>
           <DropdownMenuTrigger>
