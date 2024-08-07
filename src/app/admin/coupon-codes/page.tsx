@@ -53,18 +53,18 @@ const CouponPage = async () => {
       <div className="flex justify-between items-center gap-4">
         <PageHeader>Coupons</PageHeader>
         <Button asChild>
-          <Link href="/admin/discount-codes/new">Add Coupon</Link>
+          <Link href="/admin/coupon-codes/new">Add Coupon</Link>
         </Button>
       </div>
       <CouponTable
-        coupons={expiredCouponCodes}
+        coupons={unexpiredCouponCodes}
         canDeactivate
       />
 
       <div className="mt-8">
         <h2 className="text-xl font-bold">Expired Coupons</h2>
         <CouponTable
-          coupons={unexpiredCouponCodes}
+          coupons={expiredCouponCodes}
           isInactive
         />
       </div>
