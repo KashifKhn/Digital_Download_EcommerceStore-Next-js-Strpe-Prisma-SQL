@@ -12,8 +12,8 @@ type DiscountCodesTableProps = {
 
 const CouponTable = async ({
   coupons,
-  isInactive = false,
-  canDeactivate = false,
+  isInactive,
+  canDeactivate,
 }: DiscountCodesTableProps) => {
   return (
     <Table>
@@ -23,6 +23,8 @@ const CouponTable = async ({
           <CouponRow
             coupon={coupon}
             key={coupon.id}
+            isInactive={isInactive}
+            canDeactivate={canDeactivate}
           />
         ))}
       </TableBody>
