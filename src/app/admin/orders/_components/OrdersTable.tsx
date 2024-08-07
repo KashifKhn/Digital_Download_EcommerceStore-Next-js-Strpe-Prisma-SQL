@@ -15,6 +15,7 @@ const getOrders = () => {
       pricePaidInCents: true,
       product: { select: { name: true } },
       user: { select: { email: true } },
+      couponCode: { select: { code: true } },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -31,6 +32,7 @@ const OrdersTable = async () => {
           <TableHead>Product</TableHead>
           <TableHead>Customer</TableHead>
           <TableHead>Price Paid</TableHead>
+          <TableHead>Coupon</TableHead>
           <TableHead className="w-0">
             <span className="sr-only">Actions</span>
           </TableHead>
