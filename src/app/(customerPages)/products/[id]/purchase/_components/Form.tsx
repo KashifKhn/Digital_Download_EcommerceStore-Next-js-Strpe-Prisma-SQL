@@ -10,26 +10,46 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { formatCurrency } from "@/lib/formatters";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { getDiscountedAmount } from "@/lib/couponCodeHelpers";
+import { formatCurrency, formatDiscountCode } from "@/lib/formatters";
+import { DiscountCodeType } from "@prisma/client";
 import {
   LinkAuthenticationElement,
   PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import React, { FormEvent, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { FormEvent, useRef, useState } from "react";
 
 type FormProps = {
   priceInCents: number;
   productId: string;
+  couponCode?: {
+    id: string;
+    discountAmount: number;
+    discountType: DiscountCodeType;
+  };
 };
 
-const Form = ({ priceInCents, productId }: FormProps) => {
+const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
   const [email, setEmail] = useState<string>();
+  const couponCodeRef = useRef<HTMLInputElement>(null);
+  const searchParams = useSearchParams();
+  const coupon = searchParams.get("coupon");
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const amount =
+    couponCode == null
+      ? priceInCents
+      : getDiscountedAmount(couponCode, priceInCents);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -83,6 +103,33 @@ const Form = ({ priceInCents, productId }: FormProps) => {
               onChange={(e) => setEmail(e.value.email)}
             />
           </div>
+          <div className="space-y-2 mt-4">
+            <Label htmlFor="discountCode">Coupon</Label>
+            <div className="flex gap-4 items-center">
+              <Input
+                id="discountCode"
+                type="text"
+                name="discountCode"
+                className="max-w-xs w-full"
+                defaultValue={coupon || ""}
+                ref={couponCodeRef}
+              />
+              <Button
+                type="button"
+                onClick={() => {
+                  const params = new URLSearchParams(searchParams);
+                  params.set("coupon", couponCodeRef.current?.value || "");
+                  router.push(`${pathname}?${params.toString()}`);
+                }}>
+                Apply
+              </Button>
+              {couponCode != null && (
+                <div className="text-muted-foreground">
+                  {formatDiscountCode(couponCode)} discount
+                </div>
+              )}
+            </div>
+          </div>
         </CardContent>
         <CardFooter>
           <Button
@@ -91,7 +138,7 @@ const Form = ({ priceInCents, productId }: FormProps) => {
             disabled={stripe == null || elements == null || isLoading}>
             {isLoading
               ? "Purchasing..."
-              : `Purchase - ${formatCurrency(priceInCents / 100)}`}
+              : `Purchase - ${formatCurrency(amount / 100)}`}
           </Button>
         </CardFooter>
       </Card>
