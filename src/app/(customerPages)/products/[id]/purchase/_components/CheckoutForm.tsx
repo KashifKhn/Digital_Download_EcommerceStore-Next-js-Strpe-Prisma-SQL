@@ -5,6 +5,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Image from "next/image";
 import Form from "./Form";
+import { DiscountCodeType } from "@prisma/client";
+import { getDiscountedAmount } from "@/lib/couponCodeHelpers";
 
 type CheckoutFormProps = {
   product: {
@@ -15,13 +17,27 @@ type CheckoutFormProps = {
     description: string;
   };
   clientSecret: string;
+  couponCode?: {
+    id: string;
+    discountAmount: number;
+    discountType: DiscountCodeType;
+  };
 };
 
-const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
-  );
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+);
 
+const CheckoutForm = ({
+  product,
+  clientSecret,
+  couponCode,
+}: CheckoutFormProps) => {
+  const amount =
+    couponCode == null
+      ? product.priceInCents
+      : getDiscountedAmount(couponCode, product.priceInCents);
+  const isDiscounted = amount !== product.priceInCents;
   return (
     <div className="max-w-5xl w-full mx-auto space-y-8">
       <div className="flex gap-4 items-center">
@@ -34,8 +50,16 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
           />
         </div>
         <div>
-          <div className="text-lg">
-            {formatCurrency(product.priceInCents / 100)}
+          <div className="text-lg flex gap-4 items-baseline">
+            <div
+              className={
+                isDiscounted ? "line-through text-muted-foreground text-sm" : ""
+              }>
+              {formatCurrency(product.priceInCents / 100)}
+            </div>
+            {isDiscounted && (
+              <div className="">{formatCurrency(amount / 100)}</div>
+            )}
           </div>
           <h1 className="text-2xl font-bold">{product.name}</h1>
           <div className="line-clamp-3 text-muted-foreground">
@@ -49,6 +73,7 @@ const CheckoutForm = ({ product, clientSecret }: CheckoutFormProps) => {
         <Form
           priceInCents={product.priceInCents}
           productId={product.id}
+          couponCode={couponCode}
         />
       </Elements>
     </div>
