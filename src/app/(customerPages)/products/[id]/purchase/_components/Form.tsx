@@ -50,6 +50,7 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
     couponCode == null
       ? priceInCents
       : getDiscountedAmount(couponCode, priceInCents);
+  const isDiscounted = amount !== priceInCents;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -89,7 +90,7 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader>
-          <CardTitle>Checkout</CardTitle>
+          <CardTitle>Checkout Form</CardTitle>
           {errorMessage && (
             <CardDescription className="text-destructive">
               {errorMessage}
@@ -136,6 +137,7 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
             className="w-full"
             size="lg"
             disabled={stripe == null || elements == null || isLoading}>
+              
             {isLoading
               ? "Purchasing..."
               : `Purchase - ${formatCurrency(amount / 100)}`}
