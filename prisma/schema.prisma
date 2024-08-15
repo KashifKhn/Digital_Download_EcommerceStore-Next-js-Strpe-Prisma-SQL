@@ -42,8 +42,8 @@ model Order {
   productId        String
   user             User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   product          Product    @relation(fields: [productId], references: [id], onDelete: Restrict)
-  couponCode       CouponCode @relation(fields: [couponCodeId], references: [id], onDelete: Restrict)
-  couponCodeId     String
+  couponCode       CouponCode? @relation(fields: [couponCodeId], references: [id], onDelete: Restrict)
+  couponCodeId     String?
 }
 
 model DownloadVerification {
