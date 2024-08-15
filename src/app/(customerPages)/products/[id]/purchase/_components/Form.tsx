@@ -1,5 +1,6 @@
 "use client";
 
+import { createPaymentIntent } from "@/app/(customerPages)/_actions/stripe";
 import { userOrderExists } from "@/app/actions/orders";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +13,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getDiscountedAmount } from "@/lib/couponCodeHelpers";
 import { formatCurrency, formatDiscountCode } from "@/lib/formatters";
 import { DiscountCodeType } from "@prisma/client";
 import {
@@ -53,6 +53,27 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
 
     setIsLoading(true);
 
+    const formSubmit = await elements.submit();
+
+    if (formSubmit.error) {
+      setErrorMessage(formSubmit.error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    const paymentIntent = await createPaymentIntent(
+      email,
+      productId,
+      couponCode?.id
+    );
+
+    if (paymentIntent.error != null) {
+      console.log("paymentIntent.error", paymentIntent.error);
+      setErrorMessage(paymentIntent.error);
+      setIsLoading(false);
+      return;
+    }
+
     const orderExists = await userOrderExists(email, productId);
 
     if (orderExists) {
@@ -66,6 +87,7 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
     stripe
       .confirmPayment({
         elements,
+        clientSecret: paymentIntent.clientSecret,
         confirmParams: {
           return_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/stripe/purchase-success`,
         },
