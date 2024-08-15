@@ -16,7 +16,6 @@ type CheckoutFormProps = {
     priceInCents: number;
     description: string;
   };
-  clientSecret: string;
   couponCode?: {
     id: string;
     discountAmount: number;
@@ -28,11 +27,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
 );
 
-const CheckoutForm = ({
-  product,
-  clientSecret,
-  couponCode,
-}: CheckoutFormProps) => {
+const CheckoutForm = ({ product, couponCode }: CheckoutFormProps) => {
   const amount =
     couponCode == null
       ? product.priceInCents
@@ -69,9 +64,9 @@ const CheckoutForm = ({
       </div>
       <Elements
         stripe={stripePromise}
-        options={{ clientSecret }}>
+        options={{ amount, mode: "payment", currency: "usd" }}>
         <Form
-          priceInCents={product.priceInCents}
+          priceInCents={amount}
           productId={product.id}
           couponCode={couponCode}
         />
