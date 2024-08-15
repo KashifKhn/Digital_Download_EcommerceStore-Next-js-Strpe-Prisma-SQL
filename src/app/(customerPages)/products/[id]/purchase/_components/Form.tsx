@@ -46,11 +46,6 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const amount =
-    couponCode == null
-      ? priceInCents
-      : getDiscountedAmount(couponCode, priceInCents);
-
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
@@ -138,7 +133,7 @@ const Form = ({ priceInCents, productId, couponCode }: FormProps) => {
             disabled={stripe == null || elements == null || isLoading}>
             {isLoading
               ? "Purchasing..."
-              : `Purchase - ${formatCurrency(amount / 100)}`}
+              : `Purchase - ${formatCurrency(priceInCents / 100)}`}
           </Button>
         </CardFooter>
       </Card>
