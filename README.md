@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Digital Download E-commerce Store
+
+Welcome to the **Digital Download E-commerce Store** project! This repository contains the source code for an e-commerce platform that allows users to purchase and download digital products. The project is built using modern web development technologies, including Next.js, Stripe, Prisma, and PostgreSQL.
+
+## Features
+
+- **Product Management**: Add, update, and manage digital products through an admin interface.
+- **Checkout**: Seamless payment integration with Stripe for secure transactions.
+- **Digital Downloads**: Instant access to purchased digital products with secure download links.
+- **Order History**: Users can view their order history and re-download purchased products.
+
+## Tech Stack
+
+- **Next.js**: A React framework for building server-rendered applications and static websites.
+- **Stripe**: A powerful payment processing platform for handling transactions.
+- **Prisma**: An ORM for interacting with the database in a type-safe way.
+- **SQL**: The relational database management system used for storing application data.
+- **Neo**: An open-source toolkit used alongside Prisma to simplify the database schema setup and migrations.
+- **shadcn**: A component library used for building consistent and accessible UI components.
+- **Tailwind CSS**: A utility-first CSS framework for styling the application.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js
+- npm or yarn
+- PostgreSQL
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   git clone https://github.com/KashifKhn/Digital_Download_EcommerceStore-Next-js-Strpe-Prisma-SQL.git
+   cd Digital_Download_EcommerceStore-Next-js-Strpe-Prisma-SQL
+   ```
 
-## Learn More
+2. Install the dependencies:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Set up environment variables:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   Copy the `.env.example` file to `.env` and fill in your environment variables:
 
-## Deploy on Vercel
+   ```bash
+   cp .env.example .env
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Edit the `.env` file with your database connection string, Stripe keys, and other necessary environment variables:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+4. Set up the database:
+
+   ```bash
+   npx prisma migrate dev --name init
+   ```
+
+5. Start the development server:
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+   The application will be available at `http://localhost:3000`.
+
+### Running Stripe Webhook and Email Server
+
+- To listen to Stripe webhooks:
+
+  ```bash
+  npm run stripe
+  ```
+
+- To start the email development server:
+
+  ```bash
+  npm run email
+  ```
+
+## Deployment
+
+To deploy the application to a production environment, follow the standard Next.js deployment process. You can deploy to Vercel, Heroku, or any other cloud provider that supports Node.js.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt) file for more details.
