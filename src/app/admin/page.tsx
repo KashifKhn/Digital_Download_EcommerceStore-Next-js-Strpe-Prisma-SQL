@@ -10,7 +10,7 @@ import {
   getProductData,
   getSalesData,
   getUserData,
-} from "@/lib/admin/dashboardUtil";
+} from "@/services/admin/dashboardService";
 
 type AdminDashboardProps = {
   searchParams: {
