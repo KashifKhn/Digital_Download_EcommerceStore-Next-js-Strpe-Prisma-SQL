@@ -15,7 +15,7 @@ import {
 } from "date-fns";
 import db from "@/db/db";
 import { Prisma } from "@prisma/client";
-import { formatDate } from "../formatters";
+import { formatDate } from "../../lib/formatters";
 
 const getSalesData = async (
   createdAfter: Date | null,
