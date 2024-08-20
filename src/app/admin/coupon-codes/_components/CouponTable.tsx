@@ -1,8 +1,8 @@
 import { Table, TableBody } from "@/components/ui/table";
 import React from "react";
-import { getUnexpiredCouponCodes } from "../page";
 import CouponTableHeader from "./CouponTableHeader";
 import CouponRow from "./CouponRow";
+import { getUnexpiredCouponCodes } from "@/services/coupon/couponService";
 
 type DiscountCodesTableProps = {
   coupons: Awaited<ReturnType<typeof getUnexpiredCouponCodes>>;
