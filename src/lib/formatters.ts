@@ -45,3 +45,11 @@ const DATE_TIME_FORMATTER = new Intl.DateTimeFormat("en", {
 export function formatDateTime(date: Date) {
   return DATE_TIME_FORMATTER.format(date);
 }
+
+const DATE_FORMATTER = new Intl.DateTimeFormat("en", {
+  dateStyle: "medium",
+});
+
+export function formatDate(date: Date) {
+  return DATE_FORMATTER.format(date);
+}
