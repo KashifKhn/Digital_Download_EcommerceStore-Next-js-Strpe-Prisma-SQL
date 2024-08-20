@@ -20,7 +20,7 @@ type OrderRowProps = {
     };
     couponCode: {
       code: string;
-    };
+    } | null;
   };
 };
 
